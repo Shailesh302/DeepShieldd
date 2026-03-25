@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShieldCheck, ShieldAlert, AlertTriangle, Lightbulb } from 'lucide-react';
+import { motion } from 'framer-motion';
+import API_BASE_URL from '../config/api';
 
 export default function Analytics() {
   const [analytics, setAnalytics] = useState(null);
@@ -11,7 +13,6 @@ export default function Analytics() {
         const role = localStorage.getItem('userRole');
         const adminPrefix = role === 'admin' ? 'admin/' : '';
         const userSuffix = role === 'admin' ? '' : `/${userId}`;
-        const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
         const res = await fetch(`${API_BASE_URL}/${adminPrefix}analytics${userSuffix}`);
         const data = await res.json();
         setAnalytics(data);

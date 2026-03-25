@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Shield, KeyRound, EyeOff, Eye, ArrowRight, ArrowLeft, Loader2 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import API_BASE_URL from '../config/api';
 
 export default function SignIn() {
   const [searchParams] = useSearchParams();
@@ -26,7 +27,6 @@ export default function SignIn() {
     
     const endpoint = isSignUp ? '/signup' : '/login';
     const payload = { username: identifier, password, role: defaultRole };
-    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
     try {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
