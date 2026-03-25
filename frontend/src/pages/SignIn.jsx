@@ -24,11 +24,12 @@ export default function SignIn() {
     
     setLoading(true);
     
-    const endpoint = isSignUp ? '/api/signup' : '/api/login';
+    const endpoint = isSignUp ? '/signup' : '/login';
     const payload = { username: identifier, password, role: defaultRole };
+    const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
     try {
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

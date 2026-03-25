@@ -11,7 +11,8 @@ export default function Analytics() {
         const role = localStorage.getItem('userRole');
         const adminPrefix = role === 'admin' ? 'admin/' : '';
         const userSuffix = role === 'admin' ? '' : `/${userId}`;
-        const res = await fetch(`http://localhost:5000/api/${adminPrefix}analytics${userSuffix}`);
+        const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const res = await fetch(`${API_BASE_URL}/${adminPrefix}analytics${userSuffix}`);
         const data = await res.json();
         setAnalytics(data);
       } catch (err) {

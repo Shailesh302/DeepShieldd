@@ -20,9 +20,11 @@ export default function Dashboard() {
       const adminPrefix = role === 'admin' ? 'admin/' : '';
       const userSuffix = role === 'admin' ? '' : `/${userId}`;
 
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
       const [analyticsRes, historyRes] = await Promise.all([
-        fetch(`http://localhost:5000/api/${adminPrefix}analytics${userSuffix}`),
-        fetch(`http://localhost:5000/api/${adminPrefix}history${userSuffix}`)
+        fetch(`${API_BASE_URL}/${adminPrefix}analytics${userSuffix}`),
+        fetch(`${API_BASE_URL}/${adminPrefix}history${userSuffix}`)
       ]);
 
       const analyticsData = await analyticsRes.json();
@@ -56,7 +58,8 @@ export default function Dashboard() {
       formData.append('userId', userId);
       formData.append('file', file);
 
-      const response = await fetch('http://localhost:5000/api/analyze', {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${API_BASE_URL}/analyze`, {
         method: 'POST',
         body: formData
       });

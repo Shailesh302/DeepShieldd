@@ -15,7 +15,8 @@ export default function Logs() {
         const role = localStorage.getItem('userRole');
         const adminPrefix = role === 'admin' ? 'admin/' : '';
         const userSuffix = role === 'admin' ? '' : `/${userId}`;
-        const res = await fetch(`http://localhost:5000/api/${adminPrefix}history${userSuffix}`);
+        const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+        const res = await fetch(`${API_BASE_URL}/${adminPrefix}history${userSuffix}`);
         const data = await res.json();
         setLogs(Array.isArray(data) ? data : []);
       } catch (err) {
