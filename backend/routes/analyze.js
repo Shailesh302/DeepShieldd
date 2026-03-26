@@ -30,6 +30,27 @@ router.post('/analyze', upload.single('file'), async (req, res) => {
     // 2. Enforce Strict Identical Result Architecture via DB Search
     const existingScan = await Scan.findOne({ hash });
     if (existingScan) {
+      // Always save a new record so the user's scan count, history, timestamps, and chart update
+      const cachedFileRecord = new File({
+        userId,
+        fileName: file.originalname,
+        fileType,
+        fileUrl: `/storage/vault/${file.originalname}`,
+        status: existingScan.status
+      });
+      await cachedFileRecord.save();
+
+      const cachedScan = new Scan({
+        userId,
+        fileId: cachedFileRecord._id,
+        hash,
+        status: existingScan.status,
+        risk: existingScan.risk,
+        confidence: existingScan.confidence,
+        reason: existingScan.reason
+      });
+      await cachedScan.save();
+
       return res.status(200).json({
         status: existingScan.status,
         confidence: existingScan.confidence,
